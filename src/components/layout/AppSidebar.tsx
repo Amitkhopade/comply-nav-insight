@@ -8,7 +8,10 @@ import {
   Key,
   FileText,
   Archive,
-  Bot
+  Bot,
+  Server,
+  Link,
+  Home
 } from "lucide-react";
 
 import {
@@ -24,6 +27,7 @@ import {
 } from "@/components/ui/sidebar";
 
 const navigationItems = [
+  { title: "Dashboard", url: "/", icon: Home },
   { title: "Data Catalog", url: "/catalog", icon: Database },
   { title: "Lineage Explorer", url: "/lineage", icon: GitBranch },
   { title: "Policy Studio", url: "/policies", icon: Shield },
@@ -31,6 +35,8 @@ const navigationItems = [
   { title: "Access Center", url: "/access", icon: Key },
   { title: "Regulatory", url: "/regulatory", icon: FileText },
   { title: "Audit Evidence", url: "/audit", icon: Archive },
+  { title: "Source Completeness", url: "/sources", icon: Server },
+  { title: "SQL Connector", url: "/sql-connector", icon: Link },
 ];
 
 export function AppSidebar() {
