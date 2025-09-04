@@ -85,7 +85,7 @@ const Dashboard = () => {
         </div>
         
         <div className="flex items-center gap-3">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={() => window.location.href = '/lineage'}>
             <GitBranch className="w-4 h-4 mr-2" />
             View Lineage Map
           </Button>
@@ -174,19 +174,19 @@ const Dashboard = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-20 flex-col gap-2">
+            <Button variant="outline" className="h-20 flex-col gap-2" onClick={() => window.location.href = '/catalog'}>
               <Database className="w-6 h-6" />
               <span className="text-xs">Catalog Data</span>
             </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2">
+            <Button variant="outline" className="h-20 flex-col gap-2" onClick={() => window.location.href = '/policies'}>
               <Shield className="w-6 h-6" />
               <span className="text-xs">Create Policy</span>
             </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2">
+            <Button variant="outline" className="h-20 flex-col gap-2" onClick={() => window.location.href = '/quality'}>
               <BarChart3 className="w-6 h-6" />
               <span className="text-xs">Run Quality Check</span>
             </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2">
+            <Button variant="outline" className="h-20 flex-col gap-2" onClick={() => window.location.href = '/access'}>
               <Users className="w-6 h-6" />
               <span className="text-xs">Manage Access</span>
             </Button>
