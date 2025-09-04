@@ -63,7 +63,7 @@ const mockDatasets = [
 
 const DataCatalog = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedClassification, setSelectedClassification] = useState("");
+  const [selectedClassification, setSelectedClassification] = useState("all");
 
   const getQualityColor = (score: number) => {
     if (score >= 95) return "text-success";
@@ -118,7 +118,7 @@ const DataCatalog = () => {
                 <SelectValue placeholder="Classification" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Classifications</SelectItem>
+                <SelectItem value="all">All Classifications</SelectItem>
                 <SelectItem value="public">Public</SelectItem>
                 <SelectItem value="internal">Internal</SelectItem>
                 <SelectItem value="confidential">Confidential</SelectItem>
