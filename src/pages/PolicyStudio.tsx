@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import axios from "axios";
 import { 
   Upload, 
   Bot, 
@@ -67,11 +68,51 @@ const PolicyStudio = () => {
   const [selectedTab, setSelectedTab] = useState("upload");
   const [policyQuestion, setPolicyQuestion] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [answer, setAnswer] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadStatus, setUploadStatus] = useState<"idle" | "uploading" | "success" | "error">("idle");
 
-  const handleQuestionSubmit = () => {
+  const handleFileSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files?.[0]) {
+      setSelectedFile(event.target.files[0]);
+    }
+  }, []);
+
+  const handleUpload = async () => {
+    if (!selectedFile) return;
+
+    setUploadStatus("uploading");
+    const formData = new FormData();
+    formData.append("policy", selectedFile);
+
+    try {
+      await axios.post("/api/uploadPolicy", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setUploadStatus("success");
+    } catch (error) {
+      console.error("Upload failed:", error);
+      setUploadStatus("error");
+    }
+  };
+
+  const handleQuestionSubmit = async () => {
+    if (!policyQuestion.trim()) return;
+
     setIsProcessing(true);
-    // Simulate AI processing
-    setTimeout(() => setIsProcessing(false), 2000);
+    try {
+      const response = await axios.post("/api/askPolicy", {
+        question: policyQuestion,
+      });
+      setAnswer(response.data.answer);
+    } catch (error) {
+      console.error("Error getting answer:", error);
+      setAnswer("Sorry, I couldn't process your question at this time.");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const getStatusColor = (status: string) => {
@@ -96,7 +137,11 @@ const PolicyStudio = () => {
           </p>
         </div>
         
-        <Button className="bg-gradient-primary">
+        <Button 
+          className="bg-gradient-primary"
+          onClick={handleUpload}
+          disabled={!selectedFile || uploadStatus === "uploading"}
+        >
           <Upload className="w-4 h-4 mr-2" />
           Upload Policy Document
         </Button>
