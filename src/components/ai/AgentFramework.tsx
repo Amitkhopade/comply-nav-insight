@@ -48,6 +48,8 @@ interface AgentContextType {
 const AgentContext = createContext<AgentContextType | null>(null);
 
 // Default agents configuration
+import { policyService } from '@/services/policy';
+
 const defaultAgents: Agent[] = [
   {
     id: 'lineage-agent',
