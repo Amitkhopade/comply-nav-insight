@@ -23,13 +23,16 @@ export interface Agent {
   id: string;
   name: string;
   description: string;
-  type: 'lineage' | 'quality' | 'policy' | 'sql' | 'compliance' | 'discovery';
+  type: 'lineage' | 'quality' | 'policy' | 'sql' | 'compliance' | 'discovery' | 'openai';
   status: 'idle' | 'running' | 'completed' | 'error';
   icon: React.ComponentType<any>;
   capabilities: string[];
   lastRun?: Date;
   progress?: number;
   results?: any;
+  model?: string;
+  temperature?: number;
+  maxTokens?: number;
 }
 
 // Agent Context for global state management
@@ -98,6 +101,24 @@ const defaultAgents: Agent[] = [
     capabilities: [
       'Natural language to SQL',
       'Query optimization',
+    ]
+  },
+  {
+    id: 'openai-agent',
+    name: 'Advanced AI Assistant',
+    description: 'OpenRouter-powered AI for advanced data governance assistance',
+    type: 'openai',
+    status: 'idle',
+    icon: Sparkles,
+    model: 'deepseek/deepseek-chat-v3.1:free',
+    temperature: 0.2,
+    maxTokens: 300,
+    capabilities: [
+      'Advanced policy analysis',
+      'Regulatory compliance assessment',
+      'Data governance best practices',
+      'Cross-domain reasoning',
+      'Context-aware responses',
       'Performance analysis',
       'Schema understanding'
     ]

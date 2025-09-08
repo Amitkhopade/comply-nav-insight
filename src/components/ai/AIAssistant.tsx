@@ -53,13 +53,20 @@ export function AIAssistant() {
     {
       id: '1',
       type: 'assistant',
-      content: 'Hello! I\'m your AI Data Governance Assistant. I can help you with policy questions, data quality analysis, lineage exploration, and SQL queries. What would you like to know?',
+      content: 'Hello! I\'m your enhanced AI Data Governance Assistant powered by advanced language models. I can help you with:\n\n' +
+        '• Detailed policy analysis and compliance assessment\n' +
+        '• Complex data quality investigations\n' +
+        '• End-to-end data lineage tracking\n' +
+        '• Natural language to SQL translation\n' +
+        '• Cross-domain data governance questions\n\n' +
+        'How can I assist you today?',
       timestamp: new Date(),
       suggestions: [
-        'Show me data quality issues',
-        'Which policies apply to customer data?',
-        'Generate SQL for risk reports',
-        'Find missing data lineage'
+        'Analyze compliance gaps in our data policies',
+        'Investigate data quality trends across systems',
+        'Map data dependencies for critical assets',
+        'Generate optimized SQL for compliance reporting',
+        'Explain regulatory requirements for PII data'
       ]
     }
   ]);
@@ -76,25 +83,39 @@ export function AIAssistant() {
     scrollToBottom();
   }, [messages]);
 
-  const analyzeUserQuery = (query: string): { 
+  const analyzeUserQuery = async (query: string): Promise<{ 
     intent: string, 
     agentIds: string[], 
     context: any 
-  } => {
+  }> => {
     const queryLower = query.toLowerCase();
     
-    // <!-- AI_AGENT:NLU -->
-    // Natural Language Understanding for intent classification
+    // First, always include the OpenRouter agent for enhanced understanding
+    const defaultAgents = ['openai-agent'];
+    
+    // Add specialized agents based on content
     if (queryLower.includes('policy') || queryLower.includes('compliance') || queryLower.includes('regulation')) {
-      return { intent: 'policy', agentIds: ['policy-agent'], context: { query } };
+      return { 
+        intent: 'policy', 
+        agentIds: [...defaultAgents, 'policy-agent'], 
+        context: { query, requiresCompliance: true } 
+      };
     }
     
     if (queryLower.includes('quality') || queryLower.includes('completeness') || queryLower.includes('accuracy')) {
-      return { intent: 'quality', agentIds: ['quality-agent'], context: { query } };
+      return { 
+        intent: 'quality', 
+        agentIds: [...defaultAgents, 'quality-agent'], 
+        context: { query, metrics: ['completeness', 'accuracy', 'timeliness'] } 
+      };
     }
     
     if (queryLower.includes('lineage') || queryLower.includes('dependency') || queryLower.includes('impact')) {
-      return { intent: 'lineage', agentIds: ['lineage-agent'], context: { query } };
+      return { 
+        intent: 'lineage', 
+        agentIds: [...defaultAgents, 'lineage-agent'], 
+        context: { query, includeDownstream: true } 
+      };
     }
     
     if (queryLower.includes('sql') || queryLower.includes('query') || queryLower.includes('select')) {
