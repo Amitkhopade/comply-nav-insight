@@ -66,82 +66,6 @@ export function AIAssistant() {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { agents, runAgent } = useAgents();
-
-  const handleSendMessage = async () => {
-    if (!inputValue.trim() || isLoading) return;
-
-    const userMessage: ChatMessage = {
-      id: Date.now().toString(),
-      type: 'user',
-      content: inputValue,
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setInputValue('');
-    setIsLoading(true);
-
-    try {
-      const openAIAgent = agents.find(a => a.id === 'openai-agent');
-      if (openAIAgent) {
-        const response = await getCompletion(
-          inputValue,
-          `You are a Data Governance Assistant. Focus on: ${openAIAgent.capabilities.join(', ')}`
-        );
-
-        if (response.success && response.response) {
-          const assistantMessage: ChatMessage = {
-            id: (Date.now() + 1).toString(),
-            type: 'assistant',
-            content: response.response,
-            timestamp: new Date(),
-            agentType: 'openai',
-            suggestions: generateSuggestions(inputValue)
-          };
-
-          setMessages(prev => [...prev, assistantMessage]);
-        } else {
-          throw new Error(response.error || 'Failed to get AI response');
-        }
-      }
-    } catch (error) {
-      console.error('Error processing message:', error);
-      const errorMessage: ChatMessage = {
-        id: (Date.now() + 2).toString(),
-        type: 'system',
-        content: 'Sorry, I encountered an error processing your request. Please try again.',
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: '1',
-      type: 'assistant',
-      content: 'Hello! I\'m your enhanced AI Data Governance Assistant powered by advanced language models. I can help you with:\n\n' +
-        '• Detailed policy analysis and compliance assessment\n' +
-        '• Complex data quality investigations\n' +
-        '• End-to-end data lineage tracking\n' +
-        '• Natural language to SQL translation\n' +
-        '• Cross-domain data governance questions\n\n' +
-        'How can I assist you today?',
-      timestamp: new Date(),
-      suggestions: [
-        'Analyze compliance gaps in our data policies',
-        'Investigate data quality trends across systems',
-        'Map data dependencies for critical assets',
-        'Generate optimized SQL for compliance reporting',
-        'Explain regulatory requirements for PII data'
-      ]
-    }
-  ]);
-  const [inputValue, setInputValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const { agents, runAgent, orchestrateAgents } = useAgents();
 
   const scrollToBottom = () => {
@@ -152,39 +76,25 @@ export function AIAssistant() {
     scrollToBottom();
   }, [messages]);
 
-  const analyzeUserQuery = async (query: string): Promise<{ 
+  const analyzeUserQuery = (query: string): { 
     intent: string, 
     agentIds: string[], 
     context: any 
-  }> => {
+  } => {
     const queryLower = query.toLowerCase();
     
-    // First, always include the OpenRouter agent for enhanced understanding
-    const defaultAgents = ['openai-agent'];
-    
-    // Add specialized agents based on content
+    // <!-- AI_AGENT:NLU -->
+    // Natural Language Understanding for intent classification
     if (queryLower.includes('policy') || queryLower.includes('compliance') || queryLower.includes('regulation')) {
-      return { 
-        intent: 'policy', 
-        agentIds: [...defaultAgents, 'policy-agent'], 
-        context: { query, requiresCompliance: true } 
-      };
+      return { intent: 'policy', agentIds: ['policy-agent'], context: { query } };
     }
     
     if (queryLower.includes('quality') || queryLower.includes('completeness') || queryLower.includes('accuracy')) {
-      return { 
-        intent: 'quality', 
-        agentIds: [...defaultAgents, 'quality-agent'], 
-        context: { query, metrics: ['completeness', 'accuracy', 'timeliness'] } 
-      };
+      return { intent: 'quality', agentIds: ['quality-agent'], context: { query } };
     }
     
     if (queryLower.includes('lineage') || queryLower.includes('dependency') || queryLower.includes('impact')) {
-      return { 
-        intent: 'lineage', 
-        agentIds: [...defaultAgents, 'lineage-agent'], 
-        context: { query, includeDownstream: true } 
-      };
+      return { intent: 'lineage', agentIds: ['lineage-agent'], context: { query } };
     }
     
     if (queryLower.includes('sql') || queryLower.includes('query') || queryLower.includes('select')) {
