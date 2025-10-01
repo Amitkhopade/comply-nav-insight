@@ -53,6 +53,75 @@ export function AIAssistant() {
     {
       id: '1',
       type: 'assistant',
+      content: 'Hello! I\'m your AI Data Governance Assistant. I can help you with policy questions, data quality analysis, lineage exploration, and SQL queries. What would you like to know?',
+      timestamp: new Date(),
+      suggestions: [
+        'Show me data quality issues',
+        'Which policies apply to customer data?',
+        'Generate SQL for risk reports',
+        'Find missing data lineage'
+      ]
+    }
+  ]);
+  const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { agents, runAgent } = useAgents();
+
+  const handleSendMessage = async () => {
+    if (!inputValue.trim() || isLoading) return;
+
+    const userMessage: ChatMessage = {
+      id: Date.now().toString(),
+      type: 'user',
+      content: inputValue,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInputValue('');
+    setIsLoading(true);
+
+    try {
+      const openAIAgent = agents.find(a => a.id === 'openai-agent');
+      if (openAIAgent) {
+        const response = await getCompletion(
+          inputValue,
+          `You are a Data Governance Assistant. Focus on: ${openAIAgent.capabilities.join(', ')}`
+        );
+
+        if (response.success && response.response) {
+          const assistantMessage: ChatMessage = {
+            id: (Date.now() + 1).toString(),
+            type: 'assistant',
+            content: response.response,
+            timestamp: new Date(),
+            agentType: 'openai',
+            suggestions: generateSuggestions(inputValue)
+          };
+
+          setMessages(prev => [...prev, assistantMessage]);
+        } else {
+          throw new Error(response.error || 'Failed to get AI response');
+        }
+      }
+    } catch (error) {
+      console.error('Error processing message:', error);
+      const errorMessage: ChatMessage = {
+        id: (Date.now() + 2).toString(),
+        type: 'system',
+        content: 'Sorry, I encountered an error processing your request. Please try again.',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      id: '1',
+      type: 'assistant',
       content: 'Hello! I\'m your enhanced AI Data Governance Assistant powered by advanced language models. I can help you with:\n\n' +
         '• Detailed policy analysis and compliance assessment\n' +
         '• Complex data quality investigations\n' +
