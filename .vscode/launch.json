@@ -1,0 +1,49 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "PowerShell Launch Current File",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${file}",
+            "cwd": "${cwd}"
+        },
+        {
+            "name": "PowerShell Launch Current File",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${file}",
+            "cwd": "${cwd}"
+        },
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "PowerShell Launch Script",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "Enter path or command to execute, for example, ${workspaceFolder}/src/foo.ps1 or Invoke-Pester",
+            "cwd": "${cwd}"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Vite Dev Server",
+            "skipFiles": [
+                "<node_modules>/**"
+            ],
+            "program": "${workspaceFolder}/node_modules/vite/bin/vite.js",
+            "args": [
+                "--port",
+                "5173"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            }
+        }
+    ]
+}

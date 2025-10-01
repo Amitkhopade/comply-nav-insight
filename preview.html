@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component Preview</title>
+    <link rel="stylesheet" href="./src/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0066cc;
+            --background: #f5f5f5;
+            --card-bg: white;
+        }
+        body {
+            background-color: var(--background);
+            color: #333;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .component-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            background: white;
+        }
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+        .nav-tab {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-tab.active {
+            border-bottom-color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <h1 class="text-2xl font-bold text-gray-900">Comply Nav Insight</h1>
+                <nav class="flex space-x-4">
+                    <a href="#" class="nav-tab active">Components</a>
+                    <a href="#" class="nav-tab">Layout</a>
+                    <a href="#" class="nav-tab">Pages</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="preview-grid">
+        <!-- KPI Cards Preview -->
+        <div class="component-card bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+            <h3 class="text-lg font-semibold mb-4 text-gray-700">KPI Cards</h3>
+            <div class="grid grid-cols-1 gap-4">
+                <div class="kpi-card bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-md">
+                    <div class="text-sm text-gray-600">Data Quality Score</div>
+                    <div class="text-2xl font-bold text-blue-600">98.5%</div>
+                    <div class="flex items-center text-green-500 text-sm mt-2">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                        2.3% increase
+                    </div>
+                </div>
+                <div class="kpi-card bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-md">
+                    <div class="text-sm text-gray-600">Policy Compliance</div>
+                    <div class="text-2xl font-bold text-purple-600">94.2%</div>
+                    <div class="flex items-center text-yellow-500 text-sm mt-2">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                        </svg>
+                        Stable
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI Assistant Preview -->
+        <div class="component-card bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+            <h3 class="text-lg font-semibold mb-4 text-gray-700">AI Assistant</h3>
+            <div class="chat-interface bg-gray-50 rounded-lg p-4">
+                <div class="flex items-start space-x-3 mb-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white">
+                            AI
+                        </div>
+                    </div>
+                    <div class="flex-1 bg-white p-3 rounded-lg shadow-sm">
+                        How can I help you with data governance today?
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" 
+                           class="flex-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                           placeholder="Type your question...">
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
+                        Ask
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Policy Studio Preview -->
+        <div class="component-card">
+            <h3>Policy Studio</h3>
+            <div class="policy-interface">
+                <div class="upload-section">
+                    <button disabled>Upload Policy Document</button>
+                </div>
+                <div class="policy-list">
+                    <div class="policy-item">Data Privacy Policy</div>
+                    <div class="policy-item">Security Guidelines</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

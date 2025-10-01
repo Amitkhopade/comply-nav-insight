@@ -10,16 +10,45 @@
     <meta property="og:title" content="Comply Nav Insight - Data Governance Platform" />
     <meta property="og:description" content="Enterprise-grade data governance platform with AI-powered compliance monitoring, policy management, and regulatory reporting." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/public/comply-nav-insight.png" />
+    <meta property="og:image" content="./public/comply-nav-insight.png" />
 
     <meta name="theme-color" content="#000000" />
-    <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
-    <link rel="apple-touch-icon" href="/public/logo192.png" />
-    <link rel="manifest" href="/public/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="./public/favicon.svg" />
+    <link rel="apple-touch-icon" href="./public/logo192.png" />
+    <link rel="manifest" href="./public/manifest.json" />
+    
+    <!-- For development without Node.js -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <link rel="stylesheet" href="./src/index.css">
+    
+    <!-- For viewing the UI components directly -->
+    <style>
+      .preview-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      .component-preview {
+        margin: 2rem 0;
+        padding: 2rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+    </style>
   </head>
 
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="root">
+      <!-- Static preview content -->
+      <div class="preview-container">
+        <h1>Comply Nav Insight - Component Preview</h1>
+        <div class="component-preview">
+          <h2>Sample Components</h2>
+          <p>This is a static preview of the UI. For full functionality, Node.js installation is required.</p>
+          <!-- Preview content will be added here -->
+        </div>
+      </div>
+    </div>
   </body>
 </html>
